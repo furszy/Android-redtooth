@@ -16,7 +16,7 @@ import iop_sdk.utils.ArraysUtils;
 /**
  * Created by Matias Furszyfer on 02/10/16.
  */
-public class KeyEd25519 implements Serializable{
+public class KeyEd25519 implements Serializable,iop_sdk.profile_server.model.KeyEd25519{
 
     static final long serialVersionUID = 155346454L;
 
@@ -42,7 +42,7 @@ public class KeyEd25519 implements Serializable{
 //        if (NaCl.init()==1) throw new RuntimeException("NaCl load fail");
     }
 
-    private KeyEd25519(){}
+    public KeyEd25519(){}
 
     /**
      * Constructor
@@ -61,7 +61,7 @@ public class KeyEd25519 implements Serializable{
      * Generates a new key using random seed.
      * @return
      */
-    public static KeyEd25519 generateKeys(){
+    public KeyEd25519 generateKeys(){
         byte[] seed = new byte[32];
 
         // Generate random priv key, no se porqué de segundo parametro puse el size así igual..
@@ -102,7 +102,7 @@ public class KeyEd25519 implements Serializable{
      * @param expandedPrivateKey -> Extended private key.
      * @return -> 64 byte signature of the message.
      */
-    public static byte[] sign(String message, byte[] expandedPrivateKey) throws UnsupportedEncodingException {
+    public byte[] sign(String message, byte[] expandedPrivateKey) throws UnsupportedEncodingException {
         byte[] byteMessage = message.getBytes("UTF-8");;
         return sign(byteMessage, expandedPrivateKey);
     }
@@ -115,7 +115,7 @@ public class KeyEd25519 implements Serializable{
      * @param expandedPrivateKey -> Extended private key.
      * @return -> 64 byte signature of the message + copy of the plain message text.
      */
-    public static byte[] sign(byte[] message, byte[] expandedPrivateKey) {
+    public byte[] sign(byte[] message, byte[] expandedPrivateKey) {
         // signPlusMessage have crypto_sign_BYTES + mlen
         // crypto_sign_BYTES = 64 byte signature
         // mlen = message size
@@ -145,7 +145,7 @@ public class KeyEd25519 implements Serializable{
      * @return
      * @throws UnsupportedEncodingException
      */
-    public static boolean verify(byte[] signature, String message, byte[] publicKey) throws UnsupportedEncodingException {
+    public boolean verify(byte[] signature, String message, byte[] publicKey) throws UnsupportedEncodingException {
         byte[] byteMessage =  message.getBytes("UTF-8");
         return verify(signature, byteMessage, publicKey);
     }
@@ -160,7 +160,7 @@ public class KeyEd25519 implements Serializable{
      * @param publicKey -> Public key that corresponds to the private key used to sign the message
      * @return
      */
-    public static boolean verify(byte[] signature, byte[] message, byte[] publicKey) {
+    public boolean verify(byte[] signature, byte[] message, byte[] publicKey) {
         // concatenate the two arrays to verify sodium method, hago esto porque kalium no tiene el crypto_sign_verify_detached aún y lo tengo que hacer yo.
         byte[] signaturePluMessage = ArraysUtils.concatenateByteArrays(signature,message);
 //        LongLongByReference messageLenght = new LongLongByReference(message.length);

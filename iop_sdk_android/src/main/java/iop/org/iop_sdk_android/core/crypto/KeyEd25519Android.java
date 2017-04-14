@@ -11,7 +11,7 @@ public class KeyEd25519Android implements iop_sdk.profile_server.model.KeyEd2551
     private iop.org.iop_sdk_android.core.crypto.KeyEd25519 keyEd25519;
 
     public KeyEd25519Android() {
-        this.keyEd25519 = iop.org.iop_sdk_android.core.crypto.KeyEd25519.generateKeys();
+        this.keyEd25519 = new iop.org.iop_sdk_android.core.crypto.KeyEd25519().generateKeys();
     }
 
     public KeyEd25519Android(iop.org.iop_sdk_android.core.crypto.KeyEd25519 keyEd25519) {
@@ -20,7 +20,7 @@ public class KeyEd25519Android implements iop_sdk.profile_server.model.KeyEd2551
 
     @Override
     public KeyEd25519 generateKeys() {
-        return new KeyEd25519Android(iop.org.iop_sdk_android.core.crypto.KeyEd25519.generateKeys());
+        return new KeyEd25519Android(new iop.org.iop_sdk_android.core.crypto.KeyEd25519().generateKeys());
     }
 
     @Override
